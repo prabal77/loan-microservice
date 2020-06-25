@@ -19,6 +19,8 @@ import com.prabal.loanservice.controller.InvalidDataException;
  *
  */
 public class AddPaymentCommand implements Command<TransactionInfo> {
+	private static final String AMOUNT_REGEX = "^[0-9]+(\\.[0-9]{1,2})?$";
+	private static final String AMOUNT_ZERO = "^[0.]+$";
 	private UUID accountId;
 	@NotNull
 	private String amount;
@@ -54,8 +56,8 @@ public class AddPaymentCommand implements Command<TransactionInfo> {
 	}
 
 	public void validate() {
-		if (this.accountId == null|| this.amount.trim().isEmpty() || !Pattern.matches("^[0-9]*$", this.amount)
-				|| this.amount.trim().equals("0") || this.transactionDate == null) {
+		if (this.accountId == null || this.amount.trim().isEmpty() || !Pattern.matches(AMOUNT_REGEX, this.amount)
+				|| Pattern.matches(AMOUNT_ZERO, this.amount) || this.transactionDate == null) {
 			throw new InvalidDataException("Input is not valid");
 		}
 	}

@@ -20,6 +20,8 @@ import com.prabal.loanservice.model.AccountInfo;
  *
  */
 public class CreateAccountCommand implements Command<AccountInfo> {
+	private static final String AMOUNT_REGEX = "^[0-9]+(\\.[0-9]{1,2})?$";
+	private static final String AMOUNT_ZERO = "^[0.]+$";
 	@NonNull
 	private String amount;
 	@NonNull
@@ -57,9 +59,9 @@ public class CreateAccountCommand implements Command<AccountInfo> {
 
 	public void validate() {
 		if (this.amount == null || this.amount.trim().isEmpty() || this.interest == null
-				|| this.interest.trim().isEmpty() || !Pattern.matches("^[0-9]*$", this.amount)
-				|| this.amount.trim().equals("0") || !Pattern.matches("^[0-9]*$", this.interest)
-				|| this.interest.trim().equals("0") || this.startDate == null) {
+				|| this.interest.trim().isEmpty() || !Pattern.matches(AMOUNT_REGEX, this.amount)
+				|| Pattern.matches(AMOUNT_ZERO, this.amount.trim()) || !Pattern.matches(AMOUNT_REGEX, this.interest)
+				|| Pattern.matches(AMOUNT_ZERO, this.interest.trim()) || this.startDate == null) {
 			throw new InvalidDataException("Input is not valid");
 		}
 	}
