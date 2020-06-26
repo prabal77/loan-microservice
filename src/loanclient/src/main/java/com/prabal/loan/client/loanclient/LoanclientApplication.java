@@ -37,6 +37,7 @@ public class LoanclientApplication {
 		// get balance from second account
 		System.out.println(getBalance(account2.getAccountId(), account1.getStartDate().plusYears(3)));
 
+		System.out.println("\n\n ---- Priniting Audit Logs from the Event Store ----\n\n");
 		System.out.println(getAuditLog());
 	}
 
